@@ -1,4 +1,9 @@
+package ClassPackage;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.ChangedCharSetException;
+
 import java.awt.image.*;
 import javax.imageio.ImageIO;
 import java.io.*;
@@ -22,11 +27,12 @@ public class imageFilter extends JFrame{
 
         JButton selectPicture = new JButton("select a picture");
         JButton filter = new JButton("filter");
-        JPanel ButtonPanel = new JPanel();
-        ButtonPanel.setLayout(new GridLayout(2, 1));
-        ButtonPanel.add(selectPicture);
-        ButtonPanel.add(filter);
-        add(ButtonPanel, BorderLayout.LINE_START);
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2, 1));
+        panel.add(selectPicture);
+        panel.add(filter);
+
+        add(panel, BorderLayout.LINE_START);
         setLocationRelativeTo(null);
         
         selectPicture.addActionListener(new ActionListener() {
@@ -42,11 +48,11 @@ public class imageFilter extends JFrame{
         });
         filter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                imageData = getImageData("A.jpg");
-                w = imageData.length; h = imageData[0].length;
-                gray(getGraphics());
+                imageData = getImageData(fileName[0]);
+                BlackWhite(getGraphics());
             }
         });
+        
     }
     public void addPicture(){
         remove(ImgPanel);
@@ -86,16 +92,22 @@ public class imageFilter extends JFrame{
         imageFilter imageFilter = new imageFilter();
         imageFilter.init();
     }
+
+
+
+
+
     public int[][] getImageData(String path){
         File now = new File(path);
         BufferedImage img = null;
+        
         try{
             img = ImageIO.read(now);
-        }
-        catch(IOException ex){
+        }catch(IOException ex){
             ex.printStackTrace();
         }
-        int w = img.getWidth(), h = img.getHeight();
+        
+        w = img.getWidth(); h = img.getHeight();
         int[][] ret = new int[w][h];
 
         for(int i = 0; i < w; i++){
@@ -105,20 +117,17 @@ public class imageFilter extends JFrame{
         return ret;
     }
     
-
-    public void gray(Graphics g){
+    public void BlackWhite(Graphics g){
         super.paint(g);
 
+        int rgb, R, G, B;
         for(int i = 0; i < w; i++){
             for(int j = 0; j < h; j++){
-                int rgb = imageData[i][j];
+                rgb = imageData[i][j];
                 Color color = new Color(rgb);
-                int red = color.getRed();
-                int green = color.getGreen();
-                int blue = color.getBlue();
-                int gray = (red + green + blue) / 3;
-                Color newColor = new Color(gray, gray, gray);
-                g.setColor(newColor);
+                R = color.getRed(); G = color.getGreen(); B = color.getBlue();
+                int gray = (R + G + B) / 3;
+                g.setColor(new Color(gray, gray, gray));
                 g.fillRect(100 + i, 100 + j, 1, 1);
             }
         }
