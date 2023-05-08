@@ -3,7 +3,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.ChangedCharSetException;
-
 import java.awt.image.*;
 import javax.imageio.ImageIO;
 import java.io.*;
