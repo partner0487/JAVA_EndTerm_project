@@ -24,8 +24,14 @@ public class PhotoMagician {
 
         Filter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                imageFilter Filter = new imageFilter();
                 imageFilter.solve();
+                application.setVisible(false);
+                application.dispose();
+            }
+        });
+        Mix.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                PictureMix.solve();
                 application.setVisible(false);
                 application.dispose();
             }
