@@ -21,7 +21,7 @@ public class imageFilter extends JFrame{
 
     public void init(){
         this.setTitle("image filter");
-        this.setSize(800, 800);
+        this.setSize(1000, 1000);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -62,25 +62,23 @@ public class imageFilter extends JFrame{
         ImgPanel.setLayout(new GridLayout(1, 2));
 
         if(fileName[0]!=""){
-                try {
-                        img[0]=ImageIO.read(new File(fileName[0]));//讀取檔案
-                }
-                catch(Exception e) {
-                        img[0]=null;
-                }
-                scrollPane1 = new JScrollPane(new JLabel(new ImageIcon(img[0])));//把Image放進label裡 
-                ImgPanel.add(scrollPane1);       
+            try {
+                img[0]=ImageIO.read(new File(fileName[0]));//讀取檔案
+            }catch(Exception e) {
+                img[0]=null;
+            }
+            scrollPane1 = new JScrollPane(new JLabel(new ImageIcon(img[0])));//把Image放進label裡 
+            ImgPanel.add(scrollPane1);       
         }
         
         if(fileName[1]!=""){
-                try {
-                        img[1]=ImageIO.read(new File(fileName[1]));//讀取檔案
-                }
-                catch(Exception e) {
-                        img[1]=null;
-                }
-                scrollPane2 = new JScrollPane(new JLabel(new ImageIcon(img[1])));//把Image放進label裡
-                ImgPanel.add(scrollPane2);
+            try {
+                    img[1]=ImageIO.read(new File(fileName[1]));//讀取檔案
+            }catch(Exception e) {
+                    img[1]=null;
+            }
+            scrollPane2 = new JScrollPane(new JLabel(new ImageIcon(img[1])));//把Image放進label裡
+            ImgPanel.add(scrollPane2);
         }
 
         if(fileName[0]!="" || fileName[1]!=""){
@@ -88,7 +86,7 @@ public class imageFilter extends JFrame{
             pack();
         }
     }
-    public static void main(String[] args){
+    public static void solve(){
         imageFilter imageFilter = new imageFilter();
         imageFilter.init();
     }
