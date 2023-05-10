@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 
 public class PictureMix {
 	String[] Filename = { "", "" };
-	int len = 2;
+	int len = 2, type = 2;
 	BufferedImage[] images = new BufferedImage[len];
 	JPanel ImgPanel = new JPanel();
 	JScrollPane MixImg;
@@ -41,17 +41,41 @@ public class PictureMix {
 		JButton choose_first_picture = new JButton("Choose First Picture");
 		JButton choose_second_picture = new JButton("Choose Second Picture");
 		JButton picture_mix = new JButton("Picture Mix");
+		JCheckBox Portrait = new JCheckBox("Portrait", true);
+		JCheckBox Landscape = new JCheckBox("Landscape", false);
+
+		JPanel TypePanel = new JPanel();
+		TypePanel.setLayout(new GridLayout(1, 2));
+		TypePanel.add(Portrait);
+		TypePanel.add(Landscape);
+
+		ButtonGroup TypeButton = new ButtonGroup(); // create ButtonGroup
+		TypeButton.add(Portrait); // add  to group
+		TypeButton.add(Landscape); // add  to group
+
 		JPanel ButtonPanel = new JPanel();
-		ButtonPanel.setLayout(new GridLayout(3, 1));
+		ButtonPanel.setLayout(new GridLayout(4, 1));
 		ButtonPanel.add(choose_first_picture);
 		ButtonPanel.add(choose_second_picture);
 		ButtonPanel.add(picture_mix);
+		ButtonPanel.add(TypePanel);
+
 		frame.add(ButtonPanel, BorderLayout.LINE_START);
+
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+
 		choose_first_picture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JFileChooser fileChooser = new JFileChooser();// 宣告filechooser
+				File CurrentDirectory;
+				try {
+					CurrentDirectory = new File((new File(".").getCanonicalPath()));
+					fileChooser.setCurrentDirectory(CurrentDirectory);
+				} 
+				catch (Exception e) {
+					e.printStackTrace();
+				}
 				int returnValue = fileChooser.showOpenDialog(null);// 叫出filechooser
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = fileChooser.getSelectedFile();// 指派給File
@@ -60,9 +84,18 @@ public class PictureMix {
 				addpicture();
 			}
 		});
+
 		choose_second_picture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JFileChooser fileChooser = new JFileChooser();// 宣告filechooser
+				File CurrentDirectory;
+				try {
+					CurrentDirectory = new File((new File(".").getCanonicalPath()));
+					fileChooser.setCurrentDirectory(CurrentDirectory);
+				} 
+				catch (Exception e) {
+					e.printStackTrace();
+				}
 				int returnValue = fileChooser.showOpenDialog(null);// 叫出filechooser
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = fileChooser.getSelectedFile();// 指派給File
@@ -71,10 +104,17 @@ public class PictureMix {
 				addpicture();
 			}
 		});
+
 		picture_mix.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				if (Portrait.isSelected()) {
+                    type = 2;
+                }
+				else if (Landscape.isSelected()) {
+                    type = 1;
+                }
 				try {
-					mergeImage(images, 2, "PictureMix.png");
+					mergeImage(images, type, "PictureMix.png");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,7 +126,7 @@ public class PictureMix {
 		frame.remove(ImgPanel);
 		ImgPanel.removeAll();
 		JScrollPane scrollPane1, scrollPane2;
-		ImgPanel.setLayout(new GridLayout(1, 2));
+		ImgPanel.setLayout(new GridLayout(1, 3));
 		if (Filename[0] != "") {
 			try {
 				images[0] = ImageIO.read(new File(Filename[0]));// 讀取檔案
@@ -109,6 +149,10 @@ public class PictureMix {
 		if (Filename[0] != "" || Filename[1] != "") {
 			frame.add(ImgPanel, BorderLayout.CENTER);
 			frame.pack();
+			Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+			int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+			int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+			frame.setLocation(x, y);
 		}
 	}
 
@@ -167,6 +211,10 @@ public class PictureMix {
 			MixImg = new JScrollPane(new JLabel(new ImageIcon(ImageIO.read(new File("PictureMix.png")))));
 			frame.add(MixImg, BorderLayout.LINE_END);
 			frame.pack();
+			Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+			int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+			int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+			frame.setLocation(x, y);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
