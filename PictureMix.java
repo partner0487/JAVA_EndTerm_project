@@ -35,9 +35,30 @@ public class PictureMix {
 
 	public void SetTable() {
 		frame = new JFrame("JAVA_EndTerm_project");
-		frame.setLayout(new BorderLayout());
+		frame.setLayout(new BorderLayout(10,10));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(350, 300);
+
+		//top side
+		JButton Filter = new JButton("Filter"), Mix = new JButton("Mix"), Cut = new JButton("Cut");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 3));
+        panel.add(Filter);
+        panel.add(Mix);
+        panel.add(Cut);
+
+        frame.add(panel, BorderLayout.PAGE_START);
+
+        Filter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                imageFilter.solve();
+                frame.setVisible(false);
+                frame.dispose();
+            }
+        });
+
+		//left side
 		JButton choose_first_picture = new JButton("Choose First Picture");
 		JButton choose_second_picture = new JButton("Choose Second Picture");
 		JButton picture_mix = new JButton("Picture Mix");
@@ -61,9 +82,6 @@ public class PictureMix {
 		ButtonPanel.add(TypePanel);
 
 		frame.add(ButtonPanel, BorderLayout.LINE_START);
-
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
 
 		choose_first_picture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -120,6 +138,11 @@ public class PictureMix {
 				}
 			}
 		});
+
+		//display
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+
 	}
 
 	public void addpicture() {
