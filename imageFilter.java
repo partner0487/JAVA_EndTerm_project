@@ -18,15 +18,16 @@ import java.awt.event.ActionListener;
 
 public class imageFilter extends JFrame {
     JButton JumpToFilter, JumpToMix, JumpToCut;
-    JButton gray, old, mosaic, blackWhite, desaturate, singleColor, 
-            opposite, comics, freeze, casting, relief, selectPicture;
-    JPanel Filter, select_picture, JumpTo;
+    JButton gray, old, mosaic, blackWhite, desaturate,
+            opposite, comics, casting, relief, selectPicture, savePicture;
+    JPanel Filter, File, JumpTo;
 
     String fileName;
     JPanel ImgPanel = new JPanel(new GridLayout(1, 1));
     BufferedImage[] img = new BufferedImage[1];
 
     int[][] imageData;
+    int[][] newImageData;
     int w, h;
     int rgb, R, G, B;
 
@@ -57,42 +58,44 @@ public class imageFilter extends JFrame {
             }
         });
 
-
         {
             gray = new JButton("灰色"); old = new JButton("懷舊");
             mosaic = new JButton("馬賽克"); blackWhite = new JButton("黑白");
-            desaturate = new JButton("去色"); singleColor = new JButton("單色");
-            opposite = new JButton("反色"); comics = new JButton("連環畫"); 
-            freeze = new JButton("冰凍"); casting = new JButton("鎔鑄"); 
-            relief = new JButton("浮雕");
-            JPanel Filter = new JPanel(new GridLayout(11, 1));
+            desaturate = new JButton("去色"); opposite = new JButton("反色"); 
+            comics = new JButton("連環畫");
+            casting = new JButton("鎔鑄"); relief = new JButton("浮雕");
+            JPanel Filter = new JPanel(new GridLayout(9, 1));
             Filter.add(gray); Filter.add(old); Filter.add(mosaic);
             Filter.add(blackWhite); Filter.add(desaturate);
-            Filter.add(singleColor); Filter.add(opposite); Filter.add(comics);
-            Filter.add(freeze); Filter.add(casting); Filter.add(relief);
+            Filter.add(opposite); Filter.add(comics);
+            Filter.add(casting); Filter.add(relief);
             add(Filter, BorderLayout.LINE_START);
 
             gray.setEnabled(false); old.setEnabled(false);
             mosaic.setEnabled(false); blackWhite.setEnabled(false);
-            desaturate.setEnabled(false); singleColor.setEnabled(false);
+            desaturate.setEnabled(false);
             opposite.setEnabled(false); comics.setEnabled(false);
-            freeze.setEnabled(false); casting.setEnabled(false);
+            casting.setEnabled(false);
             relief.setEnabled(false);
 
-            selectPicture = new JButton("select a picture");
-            select_picture = new JPanel();
-            select_picture.add(selectPicture);
+            File = new JPanel();
 
-            add(select_picture, BorderLayout.EAST);
+            selectPicture = new JButton("select a picture");
+            File.add(selectPicture);
+            
+            savePicture = new JButton("save");
+            File.add(savePicture);
+
+            add(File, BorderLayout.EAST);
         }
 
         selectPicture.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 gray.setEnabled(true); old.setEnabled(true);
                 mosaic.setEnabled(true); blackWhite.setEnabled(true);
-                desaturate.setEnabled(true); singleColor.setEnabled(true);
+                desaturate.setEnabled(true);
                 opposite.setEnabled(true); comics.setEnabled(true);
-                freeze.setEnabled(true); casting.setEnabled(true);
+                casting.setEnabled(true);
                 relief.setEnabled(true);
 
                 JFileChooser fileChooser = new JFileChooser();
@@ -112,6 +115,24 @@ public class imageFilter extends JFrame {
                 addPicture();
             }
         });
+        savePicture.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                BufferedImage newImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+                for(int i = 0; i < w; i++){
+                    for(int j = 0; j < h; j++){
+                        newImage.setRGB(i, j, newImageData[i][j]);
+                    }
+                }
+                try{
+                    File output = new File("Filer.jpg");
+                    ImageIO.write(newImage, "jpg", output);
+                }
+                catch(IOException ex){
+                    System.out.println("error");
+                }
+            }
+        });
+
         gray.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 imageData = getImageData(fileName);
@@ -142,12 +163,6 @@ public class imageFilter extends JFrame {
                 desaturate(getGraphics());
             }
         });
-        singleColor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                imageData = getImageData(fileName);
-                singleColor(getGraphics());
-            }
-        });
         opposite.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 imageData = getImageData(fileName);
@@ -158,12 +173,6 @@ public class imageFilter extends JFrame {
             public void actionPerformed(ActionEvent e){
                 imageData = getImageData(fileName);
                 comics(getGraphics());
-            }
-        });
-        freeze.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                imageData = getImageData(fileName);
-                freeze(getGraphics());
             }
         });
         casting.addActionListener(new ActionListener() {
@@ -191,8 +200,13 @@ public class imageFilter extends JFrame {
         catch(Exception e){
             img[0] = null;
         }
-        
-        scrollPane1 = new JScrollPane(new JLabel(new ImageIcon(img[0])));// 把Image放進label裡
+        ImageIcon displayedImage = new ImageIcon(img[0]);
+        Image image = displayedImage.getImage();
+        Image resizeImage = image.getScaledInstance(displayedImage.getIconWidth() / (displayedImage.getIconHeight() / 500)
+                                                    , 500, java.awt.Image.SCALE_SMOOTH);
+        displayedImage = new ImageIcon(resizeImage);
+
+        scrollPane1 = new JScrollPane(new JLabel(displayedImage));// 把Image放進label裡
         ImgPanel.add(scrollPane1);
         add(ImgPanel, BorderLayout.LINE_START);
         setSize(1000, 1000);
@@ -214,8 +228,19 @@ public class imageFilter extends JFrame {
             ex.printStackTrace();
         }
 
-        w = img.getWidth();
-        h = img.getHeight();
+        ImageIcon displayedImage = new ImageIcon(img);
+        Image image = displayedImage.getImage();
+        Image resizeImage = image.getScaledInstance(displayedImage.getIconWidth() / (displayedImage.getIconHeight() / 500),
+                                                    500, java.awt.Image.SCALE_SMOOTH);
+        displayedImage = new ImageIcon(resizeImage);
+
+        Graphics2D draw = img.createGraphics();
+        draw.drawImage(resizeImage, 0, 0, null);
+
+        image = displayedImage.getImage();
+
+        w = displayedImage.getIconWidth();
+        h = displayedImage.getIconHeight();
         int[][] ret = new int[w][h];
 
         for (int i = 0; i < w; i++) {
@@ -227,7 +252,7 @@ public class imageFilter extends JFrame {
 
     public void gray(Graphics g) {
         super.paint(g);
-
+        newImageData = new int[w][h];
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 rgb = imageData[i][j];
@@ -236,14 +261,16 @@ public class imageFilter extends JFrame {
                 G = color.getGreen();
                 B = color.getBlue();
                 int gray = (R + G + B) / 3;
-                g.setColor(new Color(gray, gray, gray));
+                Color newColor = new Color(gray, gray, gray);
+                g.setColor(newColor);
                 g.fillRect(1000 + i, 325 + j, 1, 1);
+                newImageData[i][j] = newColor.getRGB();
             }
         }
     }
     public void old(Graphics g) {
         super.paint(g);
-
+        newImageData = new int[w][h];
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 rgb = imageData[i][j];
@@ -252,26 +279,34 @@ public class imageFilter extends JFrame {
                 G = (int)(color.getRed() * 0.349 + color.getGreen() * 0.686 + color.getBlue() * 0.168);
                 B = (int)(color.getRed() * 0.272 + color.getGreen() * 0.534 + color.getBlue() * 0.131);
                 R = R > 255 ? 255 : R; G = G > 255 ? 255 : G; B = B > 255 ? 255 : B;
-                g.setColor(new Color(R, G, B));
-                g.fillRect(100 + i, 100 + j, 1, 1);
+                Color newColor = new Color(R, G, B);
+                g.setColor(newColor);
+                g.fillRect(1000 + i, 325 + j, 1, 1);
+                newImageData[i][j] = newColor.getRGB();
             }
         }
     }
     public void mosaic(Graphics g){
         super.paint(g);
-        
+        newImageData = new int[w][h];
         for(int i = 0; i < w; i += 10){
             for(int j = 0; j < h; j += 10){
                 rgb = imageData[i][j];
-                Color color = new Color(rgb);
-                g.setColor(color);
-                g.fillRect(100 + i, 100 + j, 10, 10);
+                Color newColor = new Color(rgb);
+                g.setColor(newColor);
+                g.fillRect(1000 + i, 325 + j, 10, 10);
+                for(int k = i; k < i + 10; k++){
+                    for(int u = j; u < j + 10; u++){
+                        newImageData[k][u] = newColor.getRGB();
+                    }
+                }
             }
         }
+        
     }
     public void blackWhite(Graphics g){
         super.paint(g);
-
+        newImageData = new int[w][h];
         for(int i = 0; i < w; i++){
             for(int j = 0; j < h; j++){
                 rgb = imageData[i][j];
@@ -279,16 +314,18 @@ public class imageFilter extends JFrame {
                 R = color.getRed();
                 G = color.getGreen();
                 B = color.getBlue();
-                int newColor = (R + G + B) / 3;
-                newColor = (newColor >= 100 ? 255 : 0);
-                g.setColor(new Color(newColor, newColor, newColor));
-                g.fillRect(100 + i, 100 + j, 1, 1);
+                int blackWhite = (R + G + B) / 3;
+                blackWhite = (blackWhite >= 100 ? 255 : 0);
+                Color newColor = new Color(blackWhite, blackWhite, blackWhite);
+                g.setColor(newColor);
+                g.fillRect(1000 + i, 325 + j, 1, 1);
+                newImageData[i][j] = newColor.getRGB();
             }
         }
     }
     public void desaturate(Graphics g){
         super.paint(g);
-
+        newImageData = new int[w][h];
         for(int i = 0; i < w; i++){
             for(int j = 0; j < h; j++){
                 rgb = imageData[i][j];
@@ -299,29 +336,17 @@ public class imageFilter extends JFrame {
                 
                 int Max = Math.max(R, Math.max(G, B));
                 int Min = Math.min(R, Math.min(G, B));
-                int newColor = (Max + Min) / 2;
-                g.setColor(new Color(newColor, newColor, newColor));
-                g.fillRect(100 + i, 100 + j, 1, 1);
-            }
-        }
-    }
-    public void singleColor(Graphics g){
-        super.paint(g);
-
-        for(int i = 0; i < w; i++){
-            for(int j = 0; j < h; j++){
-                rgb = imageData[i][j];
-                Color color = new Color(rgb);
-                R = color.getRed();
-                G = color.getGreen();
-                B = color.getBlue();
-                
+                int desaturate = (Max + Min) / 2;
+                Color newColor = new Color(desaturate, desaturate, desaturate);
+                g.setColor(newColor);
+                g.fillRect(1000 + i, 325 + j, 1, 1);
+                newImageData[i][j] = newColor.getRGB();
             }
         }
     }
     public void opposite(Graphics g){
         super.paint(g);
-
+        newImageData = new int[w][h];
         for(int i = 0; i < w; i++){
             for(int j = 0; j < h; j++){
                 rgb = imageData[i][j];
@@ -329,14 +354,16 @@ public class imageFilter extends JFrame {
                 R = 255 - color.getRed();
                 G = 255 - color.getGreen();
                 B = 255 - color.getBlue();
-                g.setColor(new Color(R, G, B));
-                g.fillRect(100 + i, 100 + j, 1, 1);
+                Color newColor = new Color(R, G, B);
+                g.setColor(newColor);
+                g.fillRect(1000 + i, 325 + j, 1, 1);
+                newImageData[i][j] = newColor.getRGB();
             }
         }
     }
     public void comics(Graphics g){
         super.paint(g);
-
+        newImageData = new int[w][h];
         for(int i = 0; i < w; i++){
             for(int j = 0; j < h; j++){
                 rgb = imageData[i][j];
@@ -345,31 +372,16 @@ public class imageFilter extends JFrame {
                 G = Math.abs(2 * color.getBlue() - color.getGreen() + color.getRed()) * color.getRed() / 256;
                 B = Math.abs(2 * color.getBlue() - color.getGreen() + color.getRed()) * color.getGreen() / 256;
                 R = R > 255 ? 255 : R; G = G > 255 ? 255 : G; B = B > 255 ? 255 : B;
-                g.setColor(new Color(R, G, B));
-                g.fillRect(100 + i, 100 + j, 1, 1);
-            }
-        }
-    }
-    public void freeze(Graphics g){
-        super.paint(g);
-
-        for(int i = 0; i < w; i++){
-            for(int j = 0; j < h; j++){
-                rgb = imageData[i][j];
-                Color color = new Color(rgb);
-                R = (color.getRed() - color.getGreen() - color.getBlue()) * 3 / 2;
-                G = (color.getGreen() - color.getRed() - color.getBlue()) * 3 / 2;
-                B = (color.getBlue() - color.getRed() - color.getGreen()) * 3 / 2;
-                R = R > 255 ? 255 : R; G = G > 255 ? 255 : G; B = B > 255 ? 255 : B;
-                R = R < 0 ? 0 : R; G = G < 0 ? 0 : G; B = B < 0 ? 0 : B;
-                g.setColor(new Color(R, G, B));
-                g.fillRect(100 + i, 100 + j, 1, 1);
+                Color newColor = new Color(R, G, B);
+                g.setColor(newColor);
+                g.fillRect(1000 + i, 325 + j, 1, 1);
+                newImageData[i][j] = newColor.getRGB();
             }
         }
     }
     public void casting(Graphics g){
         super.paint(g);
-
+        newImageData = new int[w][h];
         for(int i = 0; i < w; i++){
             for(int j = 0; j < h; j++){
                 rgb = imageData[i][j];
@@ -379,14 +391,16 @@ public class imageFilter extends JFrame {
                 B = 128 * color.getBlue() / (color.getRed() + color.getGreen() + 1);
                 R = R > 255 ? 255 : R; G = G > 255 ? 255 : G; B = B > 255 ? 255 : B;
                 R = R < 0 ? 0 : R; G = G < 0 ? 0 : G; B = B < 0 ? 0 : B;
-                g.setColor(new Color(R, G, B));
-                g.fillRect(100 + i, 100 + j, 1, 1);
+                Color newColor = new Color(R, G, B);
+                g.setColor(newColor);
+                g.fillRect(1000 + i, 325 + j, 1, 1);
+                newImageData[i][j] = newColor.getRGB();
             }
         }
     }
     public void relief(Graphics g){
         super.paint(g);
-
+        newImageData = new int[w][h];
         for(int i = 0; i < w - 1; i++){
             for(int j = 0; j < h - 1; j++){
                 rgb = imageData[i][j];
@@ -402,8 +416,10 @@ public class imageFilter extends JFrame {
                 B = b0 - b1 + 128;
                 R = R > 255 ? 255 : R; G = G > 255 ? 255 : G; B = B > 255 ? 255 : B;
                 R = R < 0 ? 0 : R; G = G < 0 ? 0 : G; B = B < 0 ? 0 : B;
-                g.setColor(new Color(R, G, B));
-                g.fillRect(100 + i, 100 + j, 1, 1);
+                Color newColor = new Color(R, G, B);
+                g.setColor(newColor);
+                g.fillRect(1000 + i, 325 + j, 1, 1);
+                newImageData[i][j] = newColor.getRGB();
             }
         }
     }
