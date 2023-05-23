@@ -32,7 +32,6 @@ public class PictureMix {
 	public PictureMix() {
 		SetTable();
 	}
-
 	public void SetTable() {
 		frame = new JFrame("JAVA_EndTerm_project");
 		frame.setLayout(new BorderLayout(10,10));
@@ -47,6 +46,8 @@ public class PictureMix {
         panel.add(Filter);
         panel.add(Mix);
         panel.add(Cut);
+
+		Mix.setEnabled(false);
 
         frame.add(panel, BorderLayout.PAGE_START);
 
