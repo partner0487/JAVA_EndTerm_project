@@ -295,14 +295,11 @@ public class imageFilter extends JFrame {
                 Color newColor = new Color(rgb);
                 g.setColor(newColor);
                 g.fillRect(1000 + i, 325 + j, 10, 10);
-                for(int k = i; k < i + 10; k++){
-                    for(int u = j; u < j + 10; u++){
+                for(int k = i; k < i + 10; k++)
+                    for(int u = j; u < j + 10; u++)
                         newImageData[k][u] = newColor.getRGB();
-                    }
-                }
             }
         }
-        
     }
     public void blackWhite(Graphics g){
         super.paint(g);
