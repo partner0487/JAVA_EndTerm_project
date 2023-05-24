@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+
 import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -33,19 +34,20 @@ public class PictureMix {
 		SetTable();
 	}
 	public void SetTable() {
-		frame = new JFrame("JAVA_EndTerm_project");
+		frame = new JFrame("picture mix");
 		frame.setLayout(new BorderLayout(10,10));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(350, 300);
+		frame.setSize(1000, 1000);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		//top side
-		JButton Filter = new JButton("Filter"), Mix = new JButton("Mix"), Cut = new JButton("Cut");
+		JButton Filter = new JButton("Filter"), Mix = new JButton("Mix"), Gif = new JButton("Gif");
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 3));
         panel.add(Filter);
         panel.add(Mix);
-        panel.add(Cut);
+        panel.add(Gif);
 
 		Mix.setEnabled(false);
 
@@ -54,6 +56,13 @@ public class PictureMix {
         Filter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 imageFilter.solve();
+                frame.setVisible(false);
+                frame.dispose();
+            }
+        });
+		Gif.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                GifProcessor.solve();
                 frame.setVisible(false);
                 frame.dispose();
             }
@@ -170,13 +179,15 @@ public class PictureMix {
 			scrollPane2 = new JScrollPane(new JLabel(new ImageIcon(images[1])));// 把Image放進label裡
 			ImgPanel.add(scrollPane2);
 		}
+
 		if (Filename[0] != "" || Filename[1] != "") {
 			frame.add(ImgPanel, BorderLayout.CENTER);
 			frame.pack();
-			Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			/*Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 			int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
 			int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-			frame.setLocation(x, y);
+			frame.setLocation(x, y);*/
 		}
 	}
 
@@ -235,10 +246,11 @@ public class PictureMix {
 			MixImg = new JScrollPane(new JLabel(new ImageIcon(ImageIO.read(new File("PictureMix.png")))));
 			frame.add(MixImg, BorderLayout.LINE_END);
 			frame.pack();
-			Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			/*Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 			int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
 			int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-			frame.setLocation(x, y);
+			frame.setLocation(x, y);*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
