@@ -39,7 +39,7 @@ public class imageFilter extends JFrame {
 
         JumpToFilter = new JButton("Filter"); 
         JumpToMix = new JButton("Mix"); 
-        JumpToCut = new JButton("Cut");
+        JumpToCut = new JButton("Gif");
         JumpTo = new JPanel(new GridLayout(1, 3));
         JumpTo.add(JumpToFilter); JumpTo.add(JumpToMix); JumpTo.add(JumpToCut);
         add(JumpTo, BorderLayout.PAGE_START);
@@ -54,7 +54,9 @@ public class imageFilter extends JFrame {
         });
         JumpToCut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-
+                GifProcessor.solve();
+                setVisible(false);
+                dispose();
             }
         });
 

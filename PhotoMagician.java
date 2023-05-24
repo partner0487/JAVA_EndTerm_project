@@ -16,14 +16,14 @@ public class PhotoMagician {
         application.getContentPane().setLayout(new BoxLayout(application.getContentPane(), BoxLayout.Y_AXIS));
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JButton Filter = new JButton("Filter"), Mix = new JButton("Mix"), Cut = new JButton("Cut");
+        JButton Filter = new JButton("Filter"), Mix = new JButton("Mix"), Gif = new JButton("Gif");
 
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 3));
         panel.add(Filter);
         panel.add(Mix);
-        panel.add(Cut);
+        panel.add(Gif);
 
         application.add(panel, BorderLayout.CENTER);
         application.setVisible(true);
@@ -38,6 +38,13 @@ public class PhotoMagician {
         Mix.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 PictureMix.solve();
+                application.setVisible(false);
+                application.dispose();
+            }
+        });
+        Gif.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                GifProcessor.solve();
                 application.setVisible(false);
                 application.dispose();
             }
