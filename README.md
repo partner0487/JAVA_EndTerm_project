@@ -3,6 +3,7 @@
 
 執行方式:
 編譯訊息: javac -encoding utf-8 -d . GifMod/*.java *.java
+
 執行: java ClassPackage.PhotoMagician
 
 濾鏡:
