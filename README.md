@@ -2,6 +2,7 @@
 分為三個功能: 1.濾鏡 2.圖片合成 3.gif處理
 
 執行方式:
+
 編譯訊息: javac -encoding utf-8 -d . GifMod/*.java *.java
 
 執行: java ClassPackage.PhotoMagician
