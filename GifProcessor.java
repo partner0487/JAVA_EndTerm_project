@@ -57,7 +57,7 @@ public class GifProcessor extends JFrame{
     int[][] newImageData;
     int w, h;
 
-    String dirPath = "GifToImages\\";
+    String dirPath = "\\GifToImages\\";
 
     public static void solve() {
         GifProcessor GifProcessor = new GifProcessor();
