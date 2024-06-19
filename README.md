@@ -9,13 +9,13 @@
 
 | 原圖 | 結果 |
 | -------- | -------- |
-|![image](FilterTest.png)|![image](FilterStore.jpg)
+|![image](FilterTest.png)|![image](image/filter.jpg)
 
 2. 圖片合成
 
 | 圖A | 圖B | 橫向結果 | 直向結果
 | -------- | -------- | -------- | -------- | 
-| ![image](A.jpg) | ![image](B.jpg) | ![image](MixA.png) | ![image](MixB.png)
+| ![image](A.jpg) | ![image](B.jpg) | ![image](image/MixA.png) | ![image](image/MixB.png)
 3. Gif
 
 | 原始Gif | 逆轉Gif |
@@ -24,7 +24,7 @@
 
 | 圖片合成Gif | 輸出Gif |
 | -------- | --------- |
-| ![image](image/image.png) | ![image](OriginalGif.gif)
+| ![image](image/image.png) | ![image](ImagesToGif.gif)
 
 Gif逐幀轉圖片則是將Gif轉換成圖片
 
