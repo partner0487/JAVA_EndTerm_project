@@ -126,7 +126,7 @@ public class imageFilter extends JFrame {
                     }
                 }
                 try{
-                    File output = new File("FilerStore.jpg");
+                    File output = new File("FilterStore.jpg");
                     ImageIO.write(newImage, "jpg", output);
                 }
                 catch(IOException ex){
