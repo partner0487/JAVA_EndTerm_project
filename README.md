@@ -29,7 +29,7 @@
 Gif逐幀轉圖片則是將Gif轉換成圖片
 
 
-## Run:
+## Run
 1. 請先將所有Java檔案都編譯過
 ```cmd
 javac -encoding utf-8 -d . GifMod/*.java Filter/*.java Gif/*.java Mix/*.java *.java
