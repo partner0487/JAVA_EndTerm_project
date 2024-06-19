@@ -2,7 +2,7 @@
 
 ## 組員: 01057001 王家騏 01057020 林佑丞
 
-<a href="https://youtu.be/Tn8__hfTPU0?si=UFhvWWNar2UYXQYm"><img src="https://img.shields.io/badge/DEMO-YT-red?style=for-the-badge&logo=youtube&logoColor=white&labelColor=CE0000&color=FF0000"></a>
+<a href="https://youtu.be/Tn8__hfTPU0"><img src="https://img.shields.io/badge/DEMO-YT-red?style=for-the-badge&logo=youtube&logoColor=white&labelColor=CE0000&color=FF0000"></a>
 
 ## 功能
 1. 圖片濾鏡
