@@ -1,22 +1,48 @@
-# Picture-Magician
-分為三個功能: 1.濾鏡 2.圖片合成 3.gif處理
+# 圖片魔法師
 
-執行方式:
+## 組員: 01057001 王家騏 01057020 林佑丞
 
-編譯訊息: javac -encoding utf-8 -d . GifMod/*.java *.java
+<a href="https://youtu.be/Tn8__hfTPU0?si=UFhvWWNar2UYXQYm"><img src="https://img.shields.io/badge/DEMO-YT-red?style=for-the-badge&logo=youtube&logoColor=white&labelColor=CE0000&color=FF0000"></a>
 
-執行: java ClassPackage.PhotoMagician
+## 功能
+1. 圖片濾鏡
 
-濾鏡:
-點擊濾鏡按鈕，進入濾鏡視窗後，加入圖片，選擇濾鏡，儲存成FilterStore
+| 原圖 | 結果 |
+| -------- | -------- |
+|![image](FilterTest.png)|![image](FilterStore.jpg)
 
-圖片合成:
-選擇第一張圖片和第二張圖片，選擇直向或者橫向，合成
+2. 圖片合成
 
-gif:
-選擇一個gif檔案: 選擇旋轉或者逐偵轉換圖片
-或者選擇數張圖片: 合成gif
+| 圖A | 圖B | 橫向結果 | 直向結果
+| -------- | -------- | -------- | -------- | 
+| ![image](A.jpg) | ![image](B.jpg) | ![image](MixA.png) | ![image](MixB.png)
+3. Gif
 
-6/5新增: 濾鏡換成繼承語法以方便維護
+| 原始Gif | 逆轉Gif |
+| -------- | -------- |
+| ![image](OriginalGif.gif) | ![image](ReverseGif.gif)
 
-6/5遭遇問題: 轉換成jar檔後，gif功能中的預覽沒辦法正常執行
+| 圖片合成Gif | 輸出Gif |
+| -------- | --------- |
+| ![image](image/image.png) | ![image](OriginalGif.gif)
+
+Gif逐幀轉圖片則是將Gif轉換成圖片
+
+
+## 執行方式:
+1. 請先將所有Java檔案都編譯過
+```cmd
+javac -encoding utf-8 -d . GifMod/*.java Filter/*.java Gif/*.java Mix/*.java *.java
+```
+2. 執行
+```cmd
+java ClassPackage.PhotoMagician
+```
+
+## News
+
+[2023/6/5] 改用繼承語法實作濾鏡
+
+## Issue
+
+[2023/6/5] jar檔中，gif預覽無正常顯示
